@@ -5,7 +5,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        // 配置
         config: {},
     },
     mutations: {

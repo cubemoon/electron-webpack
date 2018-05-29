@@ -12,7 +12,6 @@ var installer = function ()
 {
   var self = this;
 
-
   self.appFileName = `${pkgInfo.name}-${platform}-${arch}`;
   self.appFilePath = `./packages/${self.appFileName}`;
   self.appContentsPath = `${self.appFilePath}/${pkgInfo.name}.app`;
