@@ -139,10 +139,13 @@ var UpdateObj = function ()
     async.waterfall([
       function (cb)
       {
-        var url = `${self.feedURL}/update?`;
-        url += `platform=${self.platform}&`;
-        url += `version=${self.version}&`;
-        url += `app=${self.name}`;
+        // var url = `${self.feedURL}/update?`;
+        // url += `platform=${self.platform}&`;
+        // url += `version=${self.version}&`;
+        // url += `app=${self.name}`;
+
+        // nuts update server
+        var url = `${self.feedURL}/update/${self.platform}/${self.version}`;
 
         http.get(url, function (response)
         {
