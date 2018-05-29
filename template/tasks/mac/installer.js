@@ -92,7 +92,7 @@ var installer = function ()
       {
         var bgWidth = 550;
         var bgHeigth = 310;
-        var appX = 143;
+        var appX = 73;
         var appY = 157;
         var dropX = 407;
         var dropY = 157;
