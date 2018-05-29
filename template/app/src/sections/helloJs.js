@@ -1,5 +1,5 @@
 
 
 module.exports = {
-    hello: 'word'
+    hello: 'world'
 }
