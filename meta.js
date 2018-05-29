@@ -3,16 +3,16 @@
 module.exports = {
   prompts: {
     name: {
-      type: 'editor',
+      type: 'string',
       message: 'Application Name'
     },
     description: {
-      type: 'editor',
+      type: 'string',
       message: 'Project Description',
       default: 'An electron-webpack project'
     },
     companyname: {
-      type: 'editor',
+      type: 'string',
       message: 'Company Name',
     },
     rebuild: {
