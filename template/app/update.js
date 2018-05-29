@@ -2,7 +2,7 @@
 const electron = require('electron');
 const app = electron.app;
 const dialog = electron.dialog;
-const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -139,19 +139,13 @@ var UpdateObj = function ()
     async.waterfall([
       function (cb)
       {
-        // var url = `${self.feedURL}/update?`;
-        // url += `platform=${self.platform}&`;
-        // url += `version=${self.version}&`;
-        // url += `app=${self.name}`;
-
-        // nuts update server
         var url = `${self.feedURL}/update/${self.platform}/${self.version}`;
 
-        http.get(url, function (response)
+        https.get(url, function (response)
         {
           var statusCode = response.statusCode;
           var contentType = response.headers['content-type'];
-
+          
           if (statusCode != 200)
           {
             cb(statusCode, null);
@@ -173,9 +167,9 @@ var UpdateObj = function ()
                 {
                   var parsedData = JSON.parse(rawData);
                   self.updateURL = parsedData.url;
-                  self.updateVer = parsedData.version;
+                  self.updateVer = parsedData.version || parsedData.name;
                   self.updateMD5 = parsedData.md5;
-
+                  self.updateLogs = parsedData.notes;
                   cb(null, null);
                 }
                 catch (e)
@@ -192,7 +186,7 @@ var UpdateObj = function ()
       },
       function (res, cb)
       {
-        http.get(self.updateURL, function (response)
+        https.get(self.updateURL, function (response)
         {
           var statusCode = response.statusCode;
           var contentType = response.headers['content-type'];
@@ -227,7 +221,21 @@ var UpdateObj = function ()
 
               response.on('end', function ()
               {
+                
                 fs.renameSync(self.updateTmpPath, self.updatePath);
+
+                dialog.showMessageBox({
+                  type: 'none',
+                  buttons: self.updateButtons,
+                  title: '发现新版本',
+                  message: '新版本已下载完成，重启更新，更新日志：' +  self.updateLogs ? ('\n' + self.updateLogs) : '',
+                }, function (response)
+                {
+                  if (response == self.updateResponse)
+                  {
+                    self.quitAndInstall();
+                  }
+                });
                 cb(null, null);
               });
             }
